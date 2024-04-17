@@ -1,12 +1,12 @@
 ## Cloudflare-workers/pages代理脚本
 
-### 方案一支持workers部署（目前不可用）：实现vless+ws+tls与vless+ws两种代理节点
+### 方案一支持workers部署，实现vless+ws+tls与vless+ws两种代理节点
 
-### 方案二支持pages部署（目前推荐）：仅实现vless+ws+tls代理节点
+### 方案二支持pages部署，仅实现vless+ws+tls代理节点
 
 ### 详细说明教程请参考[甬哥博客及视频教程](https://ygkkk.blogspot.com/2023/07/cfworkers-vless.html)
 --------------------------------
-### CF vless代码（_worker.js文件）可修改内容及说明
+### CF vless代码可修改内容及说明
 
 1、UUID必须自定义（第7行）
 
