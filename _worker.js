@@ -17,14 +17,14 @@ if (!isValidUUID(userID)) {
 export default {
 	/**
 	 * @param {import("@cloudflare/workers-types").Request} request
-	 * @param {{UUID: string, PROXYIP: string, DNS_RESOLVER_URL: string, NODE_ID: int, API_HOST: string, API_TOKEN: string}} env
+	 * @param {uuid: string, proxyip: string} env
 	 * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
 	 * @returns {Promise<Response>}
 	 */
 	async fetch(request, env, ctx) {
 		try {
-			userID = env.UUID || userID;
-			proxyIP = env.PROXYIP || proxyIP;
+			userID = env.uuid || userID;
+			proxyIP = env.proxyip || proxyIP;
 			const upgradeHeader = request.headers.get('Upgrade');
 			if (!upgradeHeader || upgradeHeader !== 'websocket') {
 				const url = new URL(request.url);
@@ -659,20 +659,20 @@ async function handleUDPOutBound(webSocket, vlessResponseHeader, log) {
  * @returns {string}
  */
 function getVLESSConfig(userID, hostName) {
-	const wvlessws = `vless://${userID}\u0040www.visa.com.sg:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#${hostName}`;
-	const pvlesswstls = `vless://${userID}\u0040www.visa.com.sg:8443?encryption=none&security=tls&type=ws&host=${hostName}&sni=${hostName}&fp=random&path=%2F%3Fed%3D2048#${hostName}`;
-  if (hostName.includes('pages.dev')) {
+	const wvlessws = `vless://${userID}\u0040www.visa.com.sg:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${hostName}`;
+	const pvlesswstls = `vless://${userID}\u0040www.visa.com.sg:8443?encryption=none&security=tls&type=ws&host=${hostName}&sni=${hostName}&fp=random&path=%2F%3Fed%3D2560#${hostName}`;
+        const note = `正在使用的ProxyIP：${proxyIP}`;
+	if (hostName.includes('pages.dev')) {
     return `
 ==========================配置详解==============================
-
+${note}
 ################################################################
 CF-pages-vless+ws+tls节点，分享链接如下：
 
 ${pvlesswstls}
 
 ---------------------------------------------------------------
-注意：如果 ${hostName} 在本地网络打不开（中国移动用户注意）
-       客户端选项的伪装域名(host)必须改为你在CF解析完成的自定义域名
+注意：如果 ${hostName} 在本地网络打不开（中国移动用户注意），客户端必须开启切片功能
 ---------------------------------------------------------------
 客户端必要文明参数如下：
 客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP（反代IP必须与反代端口对应）
@@ -685,44 +685,10 @@ ${pvlesswstls}
 跳过证书验证(allowlnsecure)：false
 ################################################################
 `;
-
-  } else if (hostName.includes('workers.dev'))  {
-    return `
-==========================配置详解==============================
-
-################################################################
-一、CF-workers-vless+ws节点，分享链接如下：
-
-${wvlessws}
-
----------------------------------------------------------------
-注意：当前节点无需使用CF解析完成的域名，客户端选项的TLS选项必须关闭
----------------------------------------------------------------
-客户端必要文明参数如下：
-客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP（反代IP必须与反代端口对应）
-端口(port)：7个http端口可任意选择(80、8080、8880、2052、2082、2086、2095)
-用户ID(uuid)：${userID}
-传输协议(network)：ws 或者 websocket
-伪装域名(host)：${hostName}
-路径(path)：/?ed=2048
-################################################################
-
-
-################################################################
-
-查看CF-workers-vless+ws+tls节点配置信息，请在浏览器地址栏输入：你设置的自定义域名/你设置的UUID
-防止小白过多的操作失误，必须设置自定义域名后才能使用Workers方式的TLS模式，否则，建议只使用vless+ws节点即可
-提示：使用pages方式部署，联通、电信用户大概率可以直接使用TLS模式，无需设置自定义域名
-pages方式部署可参考此视频教程：https://youtu.be/McdRoLZeTqg
-
-################################################################
-`;
   } else {
     return `
 ==========================配置详解==============================
-
-=====使用自定义域名查看配置，请确认使用的是workers还是pages=====
-
+${note}
 ################################################################
 一、CF-workers-vless+ws节点，分享链接如下：
 
@@ -746,7 +712,7 @@ ${wvlessws}
 ${pvlesswstls}
 
 ---------------------------------------------------------------
-注意：客户端选项的伪装域名(host)必须改为你在CF解析完成的自定义域名
+注意：使用workers域名开启TLS，客户端必须开启切片功能
 ---------------------------------------------------------------
 客户端必要文明参数如下：
 客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP（反代IP必须与反代端口对应）
@@ -759,7 +725,7 @@ ${pvlesswstls}
 跳过证书验证(allowlnsecure)：false
 ################################################################
 `;
-  }
+  } 
 }
 const cn_hostnames = [
 '' 
