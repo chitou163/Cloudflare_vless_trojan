@@ -3,7 +3,7 @@ import { connect } from "cloudflare:sockets";
 
 let Pswd = "trojan";
 const proxyIPs = ["cdn.xn--b6gac.eu.org"]; //workers.cloudflare.cyou bestproxy.onecf.eu.org cdn-all.xn--b6gac.eu.org cdn.xn--b6gac.eu.org
-let hostnames = [""];
+let hostnames = [''];
 
 let sha224Password;
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
@@ -23,7 +23,7 @@ const worker_default = {
       if (!upgradeHeader || upgradeHeader !== "websocket") {
         const url = new URL(request.url);
         switch (url.pathname) {
-          case "/":
+          case "/cf":
             return new Response(JSON.stringify(request.cf, null, 4), {
               status: 200,
               headers: {
@@ -43,6 +43,14 @@ const worker_default = {
           default:
             // return new Response('Not found', { status: 404 });
             // For any other path, reverse proxy to 'ramdom website' and return the original response, caching it in the process
+            if (cn_hostnames.includes('')) {
+            return new Response(JSON.stringify(request.cf, null, 4), {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json;charset=utf-8",
+              },
+            });
+            }
             const randomHostname = hostnames[Math.floor(Math.random() * hostnames.length)];
             const newHeaders = new Headers(request.headers);
             newHeaders.set("cf-connecting-ip", "1.2.3.4");
