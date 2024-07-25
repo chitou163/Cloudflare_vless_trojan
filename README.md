@@ -2,6 +2,8 @@
 
 ### 注意：本项目不依赖于订阅器、节点转换等第三方外链引用，全套独立本地化
 
+#### 本项目定位懒人小白使用，默认节点都为CF官方IP，所以无需频繁更新客户端优选IP，如有特殊情况会第一时间更新
+
 #### workers本地部署：支持vless+ws+tls、trojan+ws+tls、vless+ws、trojan+ws代理节点
 
 #### pages本地部署：支持vless+ws+tls、trojan+ws+tls代理节点
@@ -71,7 +73,7 @@ CF Vless：在网页地址栏输入 https:// workers域名 或者 pages域名 �
 
 CF Trojan：在网页地址栏输入 https:// workers域名 或者 pages域名 或者 自定义域名 /自定义密码
 
-注意：使用自定域时，原先workers域名 或者 pages域名下的节点依旧可用
+注意：使用自定域时，原先workers域名 或者 pages域名下的配置信息与分享链接依旧可用
 
 ---------------------------------
 
@@ -79,46 +81,48 @@ CF Trojan：在网页地址栏输入 https:// workers域名 或者 pages域名 �
 
 如果你没有天天最高速度或者选择国家的需求，本项目推荐使用脚本默认生成的CF官方不同地区的visa域名（IP落地地区都为美国）
 
-推荐好记的懒人专属CF官方IP（支持13个标准端口），不定时更新分享
+推荐好记的懒人专属CF官方IP（IP落地地区都为美国，支持13个标准端口），不定时更新分享
 
-104.16.0.0 美国
+104.16.0.0 
 
-104.17.0.0 美国
+104.17.0.0 
 
-104.18.0.0 美国
+104.18.0.0 
 
-104.19.0.0 美国
+104.19.0.0 
 
-104.20.0.0 英国
+104.20.0.0 
 
-104.21.0.0 英国
+104.21.0.0 
 
-104.22.0.0 英国
+104.22.0.0 
 
-104.24.0.0 英国
+104.24.0.0 
 
-104.25.0.0 英国
+104.25.0.0 
 
-104.26.0.0 英国
+104.26.0.0 
 
-104.27.0.0 英国
+104.27.0.0 
 
-2606:4700:: 美国，需IPV6环境
+2606:4700:: 需IPV6环境
 
-通过配置修改或者变量修改，可使用他人分享的IP或者域名，也可以自行进行本地优选，相关优选应用与脚本可参考视频教程自行下载使用
+通过配置修改或者变量修改，可使用他人分享的IP或者域名，也可以自行本地优选，相关优选应用与脚本可参考视频教程
 
 注意：多个CF节点在客户端使用负载均衡或者自动选择时，建议所有应用的节点都为同一个国家地区，以避免不同国家之间的IP乱跳现象
 
 ---------------------------------
 ## 客户端推荐 (支持分片功能，更新中……)：
 
-#### 安卓Android：[v2rayNG](https://github.com/2dust/v2rayNG/tags)、[Nekobox](https://github.com/maskedeken/NekoBoxForAndroid/tags)
+#### 安卓Android：[v2rayNG](https://github.com/2dust/v2rayNG/tags)、[Nekobox](https://github.com/maskedeken/NekoBoxForAndroid/tags)、v2box
 
 #### 电脑Windows：[v2rayN](https://github.com/2dust/v2rayN/tags)、[Hiddify](https://github.com/hiddify/hiddify-next/releases)
 
-#### 苹果Ios：Shadowrocket、Streisand
+#### 苹果Ios：Shadowrocket(小火箭)、Streisand、v2box
 
-注意：其他平台客户端未开启分片功能情况下，使用workers域的6个443系TLS节点是不可用的。自定义域或pages域无需设置分片就可使用TLS节点
+注意：其他平台客户端未开启分片功能情况下，workers域的6个443系TLS节点是不可用的。自定义域或pages域无需开启分片就可使用TLS节点
+
+注意：Shadowrocket(小火箭)、v2box、v2rayn、v2rayng客户端对trojan+ws有强制开启TLS问题，造成trojan+ws不通，特别说明
 
 ---------------------------------
 ### 相关说明及注意点请查看[甬哥博客](https://ygkkk.blogspot.com/2023/07/cfworkers-vless.html)
