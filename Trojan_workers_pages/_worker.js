@@ -2,7 +2,7 @@
 import { connect } from "cloudflare:sockets";
  
 let Pswd = "trojan";
-const proxyIPs = ["proxy.xxxxxxxx.tk"]; //ts.hpc.tw workers.cloudflare.cyou bestproxy.onecf.eu.org cdn-all.xn--b6gac.eu.org cdn.xn--b6gac.eu.org proxy.xxxxxxxx.tk
+const proxyIPs = ["proxy.xxxxxxxx.tk"]; //ts.hpc.tw edgetunnel.anycast.eu.org bestproxy.onecf.eu.org cdn-all.xn--b6gac.eu.org cdn.xn--b6gac.eu.org proxy.xxxxxxxx.tk
 let cn_hostnames = [''];
 let CDNIP = 'www.visa.com.sg'
 // http_ip
@@ -616,7 +616,7 @@ ${displayHtml}
 			<br>
 			<h3>3：聚合通用、Clash-meta、Sing-box订阅链接如下：</h3>
 			<hr>
-			<p>注意：<br>1、默认每个订阅链接包含TLS+非TLS共13个端口节点 (Clash节点仅6个TLS节点)<br>2、当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3、sing-box订阅已集成分片功能，并不保证每个客户端可用，否则仅非TLS节点可用</p>			
+			<p>注意：<br>1、默认每个订阅链接包含TLS+非TLS共13个端口节点 (Clash节点仅6个TLS节点)<br>2、当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3、如使用的客户端不支持分片功能，则TLS节点不可用</p>	
                         <hr>
 			<table class="table">
 					<thead>
@@ -1158,8 +1158,6 @@ return `{
         "password": "${Pswd}"
       },
       {
-        "tcp_fast_open": true,
-        "udp_fragment": true,
         "server": "${IP8}",
         "server_port": ${PT8},
         "tag": "CF_T8_${IP8}_${PT8}",
@@ -1184,9 +1182,7 @@ return `{
         "type": "trojan",
         "password": "${Pswd}"
       },
-      {
-        "tcp_fast_open": true,
-        "udp_fragment": true,      
+      {     
         "server": "${IP9}",
         "server_port": ${PT9},
         "tag": "CF_T9_${IP9}_${PT9}",
@@ -1211,9 +1207,7 @@ return `{
         "type": "trojan",
         "password": "${Pswd}"
       },
-      {
-        "tcp_fast_open": true,
-        "udp_fragment": true,      
+      {     
         "server": "${IP10}",
         "server_port": ${PT10},
         "tag": "CF_T10_${IP10}_${PT10}",
@@ -1238,9 +1232,7 @@ return `{
         "type": "trojan",
         "password": "${Pswd}"
       },
-      {
-        "tcp_fast_open": true,
-        "udp_fragment": true,      
+      {     
         "server": "${IP11}",
         "server_port": ${PT11},
         "tag": "CF_T11_${IP11}_${PT11}",
@@ -1266,8 +1258,6 @@ return `{
         "password": "${Pswd}"
       },
       {
-        "tcp_fast_open": true,
-        "udp_fragment": true,
         "server": "${IP12}",
         "server_port": ${PT12},
         "tag": "CF_T12_${IP12}_${PT12}",
@@ -1292,9 +1282,7 @@ return `{
         "type": "trojan",
         "password": "${Pswd}"
       },
-      {
-        "tcp_fast_open": true,
-        "udp_fragment": true,      
+      {     
         "server": "${IP13}",
         "server_port": ${PT13},
         "tag": "CF_T13_${IP13}_${PT13}",
