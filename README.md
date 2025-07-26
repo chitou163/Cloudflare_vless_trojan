@@ -250,7 +250,7 @@ CF官方优选443系端口：443、2053、2083、2087、2096、8443
 ---------------------------------
 ---------------------------------
 ---------------------------------
-## 优选域名、优选官方IP+反代IP一键脚本（在本地网络环境下利用termux或者ish运行）：
+## 优选域名、优选官方IP一键脚本（在本地网络环境下利用termux或者ish运行）：
 
 1、安卓请使用termux官方项目下载客户端（谷歌商店下载的不可用！）：https://github.com/termux/termux-app/releases/tag/v0.118.1
 
@@ -272,7 +272,7 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 curl -sSL https://gitlab.com/rwkgyg/CFwarp/raw/main/point/CFcdnym.sh -o CFcdnym.sh && chmod +x CFcdnym.sh && bash CFcdnym.sh
 ```
 ------------------------------------------------------------------------
-### 脚本3：CF-优选官方IP+反代IP二合一脚本（带测速），苹果安卓手机平板专用：
+### 脚本3：CF-优选官方IP脚本（带测速），苹果安卓手机平板专用：
 ```
 curl -sSL https://gitlab.com/rwkgyg/CFwarp/raw/main/point/cfip.sh -o cfip.sh && chmod +x cfip.sh && bash cfip.sh
 ```
