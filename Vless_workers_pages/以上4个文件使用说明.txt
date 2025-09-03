@@ -25,7 +25,8 @@
 
 一键自动生成美国、香港、欧洲三区优选官方IP，电脑WIN、安卓android、苹果ios多平台一键通用：https://youtu.be/6kKIzObEZ2c
 
-workers/pages代码混淆后详细设置的更新说明：https://youtu.be/QSFaP5EVI04
+workers/pages代码混淆后详细设置说明，变量值的设置与更新：https://youtu.be/QSFaP5EVI04
+
 
 
 
