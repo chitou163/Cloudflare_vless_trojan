@@ -24,6 +24,8 @@
 
 [永久免费的cf vless pages原生域名节点 | NAT64生成ProxyIP的重要说明 | CF节点为何有些网站上不了？](https://youtu.be/yR-JpVV6SHs)
 
+[CF vless/trojan免费节点混淆时代来临：workers/pages代码混淆后详细设置的更新说明；1101报错总结](https://youtu.be/QSFaP5EVI04)
+
 ---------------------------------------------
 
 ## 一：CF Vless节点可设置的变量内容 (仅nat64套壳版无需且不支持设置proxyip)

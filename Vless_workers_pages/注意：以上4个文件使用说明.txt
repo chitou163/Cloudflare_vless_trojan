@@ -1,15 +1,22 @@
 文件说明：
-1、_worker.js明文文件：不带proxyip的文件，必须自定义填上proxyip，不然无法访问CF类网站（在第9行const proxyIPs = ["填上你的proxyip"];，或者直接在客户端path路径写，具体看项目说明）
-2、_worker.js混淆文件：不带proxyip的文件，必须自定义填上proxyip，不然无法访问CF类网站（使用变量名proxyip来指定proxyip，或者直接在客户端path路径写，具体看项目说明）
-3、nat64套壳版明文文件：自带nat64自动转换proxyip，可以访问CF类网站，不支持自定义proxyip
-4、nat64套壳版混淆文件：自带nat64自动转换proxyip，可以访问CF类网站，不支持自定义proxyip
+1、_worker.js明文文件：不可用
+2、_worker.js混淆文件：可用 (不带proxyip，必须自定义填上proxyip，不然无法访问CF类网站)
+3、nat64套壳版明文文件：不可用
+4、nat64套壳版混淆文件：可用 (自带nat64自动转换proxyip，可以访问CF类网站，不支持自定义proxyip)
 
 ----------------------------------------------------------------------------------------------
 
-目前CF检测力度强大，1与3明文会直接报错1101或者522，已不可用，建议使用2或4混淆文件
+目前推荐使用2与4的半混淆文件，文件开头可直接修改uuid与proxyip，如pages部署，请把文件名改为_worker文件类型为js
 
 -----------------------------------------------------------------------------------------------
-相关精选视频教程：
+
+相关教程与proxyip分享，请参考：https://ygkkk.blogspot.com/2023/07/cfworkers-vless.html
+
+-----------------------------------------------------------------------------------------------
+
+相关精选视频教程如下：
+
+workers/pages代码混淆后详细设置说明，变量值的变更设置：https://youtu.be/QSFaP5EVI04
 
 永久免费的cf vless workers原生域名节点，无需自定义域名，无需优选IP订阅，无需面版控制台：https://youtu.be/PpPKzOYLZQg
 
@@ -25,7 +32,9 @@
 
 一键自动生成美国、香港、欧洲三区优选官方IP，电脑WIN、安卓android、苹果ios多平台一键通用：https://youtu.be/6kKIzObEZ2c
 
-workers/pages代码混淆后详细设置说明，变量值的设置与更新：https://youtu.be/QSFaP5EVI04
+
+
+
 
 
 
