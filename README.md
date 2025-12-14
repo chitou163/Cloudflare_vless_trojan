@@ -1,6 +1,16 @@
+# Cloudflare Socks5/Http本地代理脚本
+### 支持基于Workers域名、Pages域名、自定义域名
+### 可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀
+
+脚本推荐本地软路由等平台使用，脚本快捷方式：bash cfsh.sh
+
+```
+curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/main/s5http_wkpgs/cfsh.sh -o cfsh.sh && chmod +x cfsh.sh && bash cfsh.sh
+```
+
+------------------------------------------------------------
+
 # Cloudflare-workers/pages代理脚本【目前版本：25.5.4】
-------------------------------------------------
-------------------------------------------------
 ### 1、本项目仅支持本地化部署
 ### 2、本项目配置都为本地化编辑，不使用订阅器、订阅转换等第三方外链引用
 ### 3、无需担心节点订阅信息被订阅器作者或者订阅转换作者后台查看
@@ -16,6 +26,7 @@
 -------------------------------------------------------------
 
 ### 交流平台：[甬哥博客地址](https://ygkkk.blogspot.com)、[甬哥YouTube频道](https://www.youtube.com/@ygkkk)、[甬哥TG电报群组](https://t.me/+jZHc6-A-1QQ5ZGVl)、[甬哥TG电报频道](https://t.me/+DkC9ZZUgEFQzMTZl)
+
 --------------------------------
 
 ### 推荐新手用户请先看以下四个入门视频教程：
@@ -28,14 +39,13 @@
 
 [CF vless/trojan免费节点混淆时代来临：workers/pages代码混淆后详细设置的更新说明；1101报错总结](https://youtu.be/QSFaP5EVI04)
 
----------------------------------------------
 
 ## 一：CF Vless节点可设置的变量内容 (仅nat64套壳版无需且不支持设置proxyip)
 
 | 变量作用 | 变量名称| 变量值要求| 变量默认值| 变量要求|
 | :--- | :--- | :--- | :--- | :--- |
 | 1、必要的uuid | uuid (小写字母) |符合uuid规定格式 |万人骑uuid：86c50e3a-5b87-49dd-bd20-03c7f2735e40|建议|
-| 2、全局节点能上CF类网站 | proxyip (小写字母) |443端口：ipv4地址、[ipv6地址]、域名。非443端口：IPV4地址:端口、[IPV6地址]:端口、域名:端口|proxyip：留空|可选|
+| 2、全局节点能上CF类网站 | proxyip (小写字母) |443端口：ipv4地址、[ipv6地址]、域名。非443端口：IPV4地址:端口、[IPV6地址]:端口、域名:端口|proxyip：脚本自带|可选|
 | 3、订阅节点：优选IP | ip1到ip13，共13个 |CF官方IP、CF反代IP、CF优选域名| ygkkk的CF官方域名|可选|
 | 4、订阅节点：优选IP对应端口 | pt1到pt13，共13个 |CF13个标准端口、反代IP对应任意端口| CF13个标准端口|可选|
 
@@ -45,7 +55,7 @@
 | 变量作用 | 变量名称| 变量值要求| 变量默认值| 变量要求|
 | :--- | :--- | :--- | :--- | :--- |
 | 1、必要的密码 | pswd (小写字母) |建议字母数字 |万人骑密码：trojan|建议|
-| 2、全局节点能上CF类网站 | proxyip (小写字母) |443端口：ipv4地址、[ipv6地址]、域名。非443端口：IPV4地址:端口、[IPV6地址]:端口、域名:端口|proxyip：留空|可选|
+| 2、全局节点能上CF类网站 | proxyip (小写字母) |443端口：ipv4地址、[ipv6地址]、域名。非443端口：IPV4地址:端口、[IPV6地址]:端口、域名:端口|proxyip：脚本自带|可选|
 | 3、订阅节点：优选IP | ip1到ip13，共13个 |CF官方IP、CF反代IP、CF优选域名| ygkkk的CF官方域名|可选|
 | 4、订阅节点：优选IP对应端口 | pt1到pt13，共13个 |CF13个标准端口、反代IP对应任意端口| CF13个标准端口|可选|
 
@@ -62,6 +72,7 @@
 5、订阅节点变量设置可参考此[视频教程](https://youtu.be/8s-ELRuFaeE?si=MjhcKbt20d2Q2eqp&t=447)
 
 ---------------------------------
+
 ## 三：自定义proxyip
 
 虽说脚本默认自带其他大佬的proxyip，但同时也支持自定义proxyip
@@ -91,39 +102,14 @@
 3、当节点的path路径出现```/pyip=```关键字时，此节点的proxyip只认准path路径设置的proxyip，全局proxyip不起作用
 
 ---------------------------------
+
 ## 四：无需socks5！小白利用reality协议一键自制proxyip、80系/443系的任意端口反代IP
-
-### 1、Serv00专用：
-
-[项目地址](https://github.com/yonggekkk/sing-box-yg?tab=readme-ov-file#%E4%BA%8Cserv00%E4%B8%80%E9%94%AE%E4%B8%89%E5%8D%8F%E8%AE%AE%E5%85%B1%E5%AD%98%E8%84%9A%E6%9C%ACserv00%E4%B8%93%E7%94%A8)
-
-修改自Serv00老王sing-box安装脚本，支持一键三协议：vless-reality、vmess-ws(argo)、hysteria2。
-
-主要增加reality协议默认支持 CF vless/trojan 节点的proxyip以及非标端口的优选反代IP功能
-
-Serv00专用一键脚本 (默认自动安装进程保活)
-```
-bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/sing-box-yg/main/serv00.sh)
-```
-
-### 2、VPS专用：
 
 推荐使用 离中国近、便宜、流量多的纯IPV6的vps进行搭建。近可能避免使用IPV4，因为IPV4大概率被大佬们偷扫反代IP，成为他们的公益或收费反代IP库。如果非要用IPV4，请时常关注下自己VPS的流量，使用proxyip与客户端优选IP都会消耗VPS流量
 
 搭建proxyip与反代ip的脚本推荐：[x-ui-yg脚本](https://github.com/yonggekkk/x-ui-yg)、[sing-box-yg脚本](https://github.com/yonggekkk/sing-box-yg)
 
 相关操作请看[视频教程高阶1](https://youtu.be/QOnMVULADko)、[视频教程高阶2](https://youtu.be/CVZStM0t8BA)
-
-
-### 3、可现实以下四种情况(推荐在TLS节点环境下)：
-
-可选择现实1：仅用于客户端优选IP，即CF节点访问非CF网站的落地IP地区与VPS地区一致，访问CF网站落地IP地区根据proxyip决定
-
-可选择现实2：仅用于proxyip，即CF节点访问CF网站的落地IP地区与VPS地区一致，访问非CF网站落地IP地区根据客户端优选IP决定
-
-可选择现实3：同时用于客户端优选IP与proxyip，即CF节点访问CF网站的落地IP地区、访问非CF网站落地IP地区，两者都与VPS地区一致
-
-可选择现实4：通过在VPS安装WARP全局双栈V4+V6功能，即访问非CF网站的客户端优选IP的落地IP（104.28……/2a09:……）现实固定，或访问CF网站的proxyip的落地IP（104.28……/2a09:……）现实WARP解锁功能效果
 
 -------------------------------------------
 
