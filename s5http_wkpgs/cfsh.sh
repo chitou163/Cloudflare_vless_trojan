@@ -10,20 +10,36 @@ mips64le)           cpu=mips64le ;;
 mips64)             cpu=mips64 ;;
 mips|mipsle)        cpu=mipsle ;;
 *)
-echo "当前架构为 $arch，暂不支持"
-exit
+echo "当前架构为 $arch，暂不支持" && exit
 ;;
 esac
+INIT_SYSTEM=$(cat /proc/1/comm 2>/dev/null)
+RCLOCAL="/etc/rc.local"
+showports(){
+if [ "$INIT_SYSTEM" = "systemd" ]; then
+ports=$(ps aux | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
+else
+ports=$(ps w | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
+fi
+}
 showmenu(){
-files=$(ps | grep "$HOME/cfs5http/cfwp" | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
-if [ -n "$files" ]; then
+showports
+if [ -n "$ports" ]; then
 echo "已安装节点端口："
-while IFS= read -r f; do
-echo "$f"
-done <<< "$files"
+echo "$ports" | while IFS= read -r port; do
+echo "  - $port"
+done
 else
 echo "未安装任何节点"
 fi
+}
+delsystem(){
+local port=$1
+local service_name="cf_${port}.service"
+systemctl stop "$service_name" >/dev/null 2>&1
+systemctl disable "$service_name" >/dev/null 2>&1
+rm -f "/etc/systemd/system/$service_name"
+systemctl daemon-reload >/dev/null 2>&1
 }
 echo "================================================================"
 echo "甬哥Github项目 ：github.com/yonggekkk"
@@ -31,8 +47,8 @@ echo "甬哥Blogger博客 ：ygkkk.blogspot.com"
 echo "甬哥YouTube频道 ：www.youtube.com/@ygkkk"
 echo "================================================================"
 echo "Cloudflare Socks5/Http本地代理脚本"
-echo "支持 Workers域名、Pages域名、自定义域名"
-echo "可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀"
+echo "支持：Workers域名、Pages域名、自定义域名"
+echo "可选：ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀"
 echo "脚本快捷方式：bash cfsh.sh"
 echo "================================================================"
 echo "1、增设CF-Socks5/Http节点配置"
@@ -51,31 +67,32 @@ curl -L -o "$HOME/cfs5http/cfwp" -# --retry 2 --insecure https://raw.githubuserc
 chmod +x "$HOME/cfs5http/cfwp"
 fi
 echo
-read -p "1、客户端本地端口设置（回车跳过为30000）:" menu
+read -p "1、客户端本地端口设置（回车默认：30000）:" menu
 port="${menu:-30000}"
 echo
 read -p "2、CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
 cf_domain="$menu"
 echo
-read -p "3、客户端地址优选IP/域名（回车跳过为yg1.ygkkk.dpdns.org）:" menu
+read -p "3、客户端地址优选IP/域名（回车默认：yg1.ygkkk.dpdns.org）:" menu
 cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
 echo
-read -p "4、密钥设置（回车跳过为不设密钥）:" menu
+read -p "4、密钥设置（回车默认：不设密钥）:" menu
 token="${menu:-}"
 echo
-read -p "5、DoH服务器设置（回车跳过为dns.alidns.com/dns-query）:" menu
+read -p "5、DoH服务器设置（回车默认：dns.alidns.com/dns-query）:" menu
 dns="${menu:-dns.alidns.com/dns-query}"
 echo
-read -p "6、ECH开关（回车跳过或者输入y表示开启ECH，输入n表示关闭ECH）:" menu
+read -p "6、ECH开关（y=开启, n=关闭, 回车跳过: 开启）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
-read -p "7、分流开关（回车跳过或者输入y表示国内外分流代理，输入n表示全局代理）:" menu
+read -p "7、分流开关（y=国内外分流代理, n=全局代理, 回车默认: 国内外分流代理）:" menu
 cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
+LOG="$HOME/cfs5http/$port.log"
 cat > "$SCRIPT" << EOF
 #!/bin/bash
-INIT_SYSTEM=\$(cat /proc/1/comm)
+[ -f /proc/1/comm ] && INIT_SYSTEM=\$(cat /proc/1/comm)
 CMD="$HOME/cfs5http/cfwp \
 client_ip=:$port \
 dns=$dns \
@@ -84,15 +101,13 @@ cf_cdnip=$cf_cdnip \
 token=$token \
 enable_ech=$enable_ech \
 cnrule=$cnrule"
-LOG="$HOME/cfs5http/$port.log"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
 exec \$CMD
 else
-nohup \$CMD > "\$LOG" 2>&1 &
+nohup \$CMD > "$LOG" 2>&1 &
 fi
 EOF
 chmod +x "$SCRIPT"
-INIT_SYSTEM=$(cat /proc/1/comm)
 if [ "$INIT_SYSTEM" = "systemd" ]; then
 cat > "/etc/systemd/system/cf_$port.service" << EOF
 [Unit]
@@ -102,6 +117,7 @@ After=network.target
 Type=simple
 ExecStart=/bin/bash $SCRIPT
 Restart=always
+RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -109,51 +125,52 @@ systemctl daemon-reload >/dev/null 2>&1
 systemctl start "cf_$port.service" >/dev/null 2>&1
 systemctl enable "cf_$port.service" >/dev/null 2>&1
 elif [ "$INIT_SYSTEM" = "procd" ]; then
-RCLOCAL="/etc/rc.local"
-[ ! -f "$RCLOCAL" ] && touch "$RCLOCAL"
-grep -q "$SCRIPT" "$RCLOCAL" || sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL"
+[ ! -f "$RCLOCAL" ] && echo -e "#!/bin/sh\nexit 0" > "$RCLOCAL"; grep -q "$SCRIPT" "$RCLOCAL" || (grep -q "^exit 0" "$RCLOCAL" && sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL" || echo "/bin/bash $SCRIPT" >> "$RCLOCAL"); tail -n1 "$RCLOCAL" | grep -q "^exit 0" || echo "exit 0" >> "$RCLOCAL"
 bash "$SCRIPT"
 else
 bash "$SCRIPT"
+echo "可将 /bin/bash $SCRIPT 手动设置开机自启"
 fi
-echo "安装完毕，Socks5/Http节点已在运行中，可进入菜单选择2，查看节点配置信息及日志" && sleep 5
+sleep 5 && echo "安装完毕，Socks5/Http节点已在运行中，可运行快捷方式 bash cfsh.sh 进入菜单选择2，查看节点配置信息及日志" 
 echo
+if [ "$INIT_SYSTEM" = "procd" ]; then
 until grep -q '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' "$HOME/cfs5http/$port.log"; do sleep 1; done; head -n 16 "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP'
+fi
 echo
 elif [ "$menu" = "2" ]; then
 showmenu
 echo
 read -p "选择要查看的端口节点配置信息及日志（输入端口即可）:" port
+if [ "$INIT_SYSTEM" = "systemd" ]; then
+journalctl -u cf_$port.service -f
+else
 { echo "$port端口节点配置信息及日志如下：" ; echo "------------------------------------"; sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' ; echo "------------------------------------" ; sed '1,16d' "$HOME/cfs5http/$port.log" | tail -n 10; }
+fi
+echo
 elif [ "$menu" = "3" ]; then
 showmenu
 echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
+delsystem "$port"
+[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 pid=$(lsof -t -i :$port)
-if [ -n "$pid" ]; then
-systemctl stop "cf_$port.service" >/dev/null 2>&1
-systemctl disable "cf_$port.service" >/dev/null 2>&1
-rm -rf "/etc/systemd/system/cf_$port.service"
 kill -9 $pid >/dev/null 2>&1
-echo "端口 $port 的进程已被终止"
-else
-echo "端口 $port 没有占用进程"
-fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
+echo "端口 $port 的进程已被终止"
 elif [ "$menu" = "4" ]; then
 showmenu
-if [ -n "$files" ]; then
-while IFS= read -r port; do
-echo "$port"
-systemctl stop "cf_$port.service" >/dev/null 2>&1
-systemctl disable "cf_$port.service" >/dev/null 2>&1
-rm -f "/etc/systemd/system/cf_$port.service"
-done <<< "$files"
-systemctl daemon-reload
+echo
+read -p "确认卸载所有节点？(y/n): " menu
+if [ "$menu" != "y" ]; then
+echo "已取消操作" && exit
 fi
-ps | grep '[c]fwp' | awk '{print $1}' | xargs kill -9
+echo "$ports" | while IFS= read -r port; do
+delsystem "$port"
+[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
+done
+ps | grep '[c]fwp' | awk '{print $1}' | xargs -r kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
-echo "卸载完成"
+echo "所有节点已卸载完成"
 else
 exit
 fi
