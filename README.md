@@ -10,7 +10,7 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 
 | 变量作用 | 变量名称| 变量值要求| 变量默认值| 变量要求|
 | :--- | :--- | :--- | :--- | :--- |
-| 1、建立CF服务端 | cf_domain | 域名:443系端口或者80系端口 | 无，必须CF处获取workers/pages/自定义的域名 | 必填 |
+| 1、CF服务端域名:端口 | cf_domain | 域名:443系端口或者80系端口 | 无，必须CF处获取workers/pages/自定义的域名 | 必填 |
 | 2、CF服务端密钥 | token | 与服务端一样的字母数字 | 无密钥 | 可选 |
 | 3、客户端本地IP端口 | client_ip | 10000-65000之间 | 30000 | 可选 |
 | 4、指定优选IP/域名 | cf_cdnip | CF的优选IP或者优选域名 | yg(可任意1-13数字).ygkkk.dpdns.org | 可选 |
@@ -18,6 +18,25 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 | 6、DNS指定DoH | dns | DNS的DoH格式 | dns.alidns.com/dns-query | 可选 |
 | 7、ECH开关 | enable_ech | y=开启，n=关闭 | 开启ECH | 可选 |
 | 8、分流开关 | cnrule | y=国内外分流代理，n=全局代理 | 国内外分流代理 | 可选 |
+
+| 三模式变量设置要点 | ECH-TLS | 普通TLS| 无TLS|
+| :--- | :--- | :--- | :--- |
+| 1、cf_domain（CF服务端域名:端口） | workers/pages/自定义的域名:443系端口 | pages/自定义的域名:443系端口 | workers域名:80系端口 | 
+| 2、enable_ech（ECH开关） | y开启 | n关闭 | y开启/n关闭 | 
+
+注意：
+
+CF80系端口：80(推荐)、8080、8880、2052、2082、2086、2095
+
+CF443系端口：443(推荐)、2053、2083、2087、2096、8443
+
+推荐非CF网站IP查询（显示CF的104.28/2a0a的IP）：https://www.whatismyip.com
+
+推荐CF网站IP查询（显示proxyip的IP）：https://ip.sb
+
+ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、ChatGPT等网站
+
+视频教程：[CF Socks5/Http免费代理教程：揭秘ECH Workers利弊；支持三种代理模式多端口复用，支持客户端自定义proxyip](https://youtu.be/Y_SHcD3prt8)
 
 ------------------------------------------------------------
 
