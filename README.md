@@ -38,6 +38,8 @@ ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、Ch
 
 视频教程：[CF Socks5/Http免费代理教程：揭秘ECH Workers利弊；支持三种代理模式多端口复用，客户端自定义proxyip](https://youtu.be/Y_SHcD3prt8)
 
+调侃：所谓ech workers在意义上过于狭隘。ech只是加密形式中的一种，workers更是服务形式中的一种，个人觉得这种代理的展现，取名为CF Socks5/Http更为全面且合理，与CF vless等遥相呼应
+
 ------------------------------------------------------------
 
 <img width="1182" height="517" alt="e5dfbfd7c9e6f15d4bd1c8409eecdffc" src="https://github.com/user-attachments/assets/ac0bcef0-54f9-4290-8c04-f84bbbe1cdf8" />
