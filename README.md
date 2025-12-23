@@ -30,7 +30,7 @@ CF80系端口：80(推荐)、8080、8880、2052、2082、2086、2095
 
 CF443系端口：443(推荐)、2053、2083、2087、2096、8443
 
-推荐非CF网站IP查询（显示CF的104.28/2a0a的IP）：https://www.whatismyip.com
+推荐非CF网站IP查询（显示CF的104.28/2a09的IP）：https://www.whatismyip.com
 
 推荐CF网站IP查询（显示proxyip的IP）：https://ip.sb
 
@@ -38,7 +38,7 @@ ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、Ch
 
 视频教程：[CF Socks5/Http免费代理教程：揭秘ECH Workers利弊；支持三种代理模式多端口复用，客户端自定义proxyip](https://youtu.be/Y_SHcD3prt8)
 
-调侃：所谓ech workers在意义上过于狭隘。ech只是加密形式中的一种，workers更是服务形式中的一种，个人觉得这种代理的展现，取名为CF Socks5/Http更为全面且合理，与CF vless等遥相呼应
+调侃：所谓ech workers在意义上过于狭隘。ech只是加密形式中的一种，workers更是CF服务形式中的一种，个人觉得这种代理模式的展现，取名为CF Socks5/Http更为全面且合理，与CF vless等前辈们遥相呼应
 
 ------------------------------------------------------------
 
