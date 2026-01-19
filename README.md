@@ -252,6 +252,8 @@ CDN优选域名：yg1.ygkkk.dpdns.org (yg1中的1，可换为1-11中任意数字
 
 ### CF视频教程集合：
 
+[🥇搭建代理9大问题排行榜：第4名全网99%的人被误导！第1名每个人都被折腾到爆！全程高能！](https://youtu.be/pJwJBqBkcfw)
+
 [CF workers永久免费vless节点搭建教程（一）：全网首发演示跳IP现象，解密两大节点使用技巧，优选IP、优选域名的优缺点说明](https://youtu.be/9V9CQxmfwoA)
 
 [CF workers永久免费vless节点搭建教程（二）：优选反代IP一键脚本发布，pages部署教程，多平台客户端设置说明，独家探讨CF免费代理敏感安全问题](https://youtu.be/McdRoLZeTqg)
